@@ -6,9 +6,16 @@ import (
 )
 
 func main() {
-
-	caption.NewCaptain().Mount("v1", core.NewPodHandler()).Launch()
-
+	/*
+	caption.NewCaptain().Mount("v1",
+		core.NewPodHandler(),
+	).Attach(
+		middleware.JWT(),
+	).Launch()
+	*/
+	caption.NewCaptain().Mount("v1",
+		core.NewPodHandler(),
+	).Launch()
 }
 
 
