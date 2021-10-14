@@ -2,18 +2,18 @@ package main
 
 import (
 	"KubeCaption.Api/internal/handlers/core"
+	"KubeCaption.Api/internal/middleware"
 	caption "KubeCaption.Api/pkg/captain"
+	"KubeCaption.Api/pkg/jwt"
+	"fmt"
 )
 
 func main() {
-	/*
-	caption.NewCaptain().Mount("v1",
-		core.NewPodHandler(),
-	).Attach(
+	token, _ :=jwt.GenerateToken(12, "ben.c", "ku123test", "www.kubecaptain.com")
+	fmt.Println(token)
+	caption.NewCaptain().Attach(
 		middleware.JWT(),
-	).Launch()
-	*/
-	caption.NewCaptain().Mount("v1",
+	).Mount("v1",
 		core.NewPodHandler(),
 	).Launch()
 }

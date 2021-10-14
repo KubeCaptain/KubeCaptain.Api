@@ -16,7 +16,7 @@ type Claims struct {
 }
 
 
-
+// jwt.GenerateToken(12, "ben.c", "ku123test", "www.kubecaptain.com")
 func GenerateToken(userID int64, userName, secret, issuer string) (token string,err error) {
 	nowTime := time.Now()
 	expireTime := nowTime.Add(24 * time.Hour)
