@@ -15,15 +15,9 @@ type Claims struct {
 	jwt.StandardClaims
 }
 
-func SetSecret(secret string)  {
-	jwtSecret = []byte(secret);
-}
 
-func SetIssuer(issuer string)  {
-	jwtIssuer = issuer
-}
 
-func GenerateToken(userID int64, userName string) (token string,err error) {
+func GenerateToken(userID int64, userName, secret, issuer string) (token string,err error) {
 	nowTime := time.Now()
 	expireTime := nowTime.Add(24 * time.Hour)
 	claims := Claims{
@@ -31,19 +25,18 @@ func GenerateToken(userID int64, userName string) (token string,err error) {
 		userName,
 		jwt.StandardClaims {
 			ExpiresAt : expireTime.Unix(),
-			Issuer : jwtIssuer,
+			Issuer : issuer,
 		},
 	}
 	tokenClaims := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	token, err = tokenClaims.SignedString(jwtSecret)
+	token, err = tokenClaims.SignedString([]byte(secret))
 	return
 }
 
-func ParseToken(token string) (*Claims, error) {
+func ParseToken(token, secret string) (*Claims, error) {
 	tokenClaims, err := jwt.ParseWithClaims(token, &Claims{}, func(token *jwt.Token) (interface{}, error) {
-		return jwtSecret, nil
+		return []byte(secret), nil
 	})
-
 	if tokenClaims != nil {
 		if claims, ok := tokenClaims.Claims.(*Claims); ok && tokenClaims.Valid {
 			return claims, nil

@@ -14,11 +14,10 @@ func JWT() gin.HandlerFunc {
 		if token == "" {
 			unauthorized(c, "token不可为空！")
 		}
-		claims, err := jwt.ParseToken(token)
+		claims, err := jwt.ParseToken(token, "ku123test")
 		if err != nil {
 			unauthorized(c, "token有误，请登陆后访问！")
 		}
-
 		if time.Now().Unix() > claims.ExpiresAt {
 			unauthorized(c, "token已过期，请重新登陆！")
 		}
