@@ -34,7 +34,7 @@ func getToken(c *gin.Context) (token string)  {
 		return
 	}
 	headerAuth := strings.Split(c.GetHeader("Authorization")," ")
-	if len(headerAuth) >= 2 || headerAuth[0] == "Bearer"  {
+	if len(headerAuth) == 2 || headerAuth[0] == "Bearer"  {
 		token = headerAuth[1]
 	}
 	return
